@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\SteganographyEncodeApiRequest;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,10 +19,9 @@ class SteganographyApiController extends Controller
 
     const OP_DECODE = 'decode';
 
-    public function encode(SteganographyEncodeApiRequest $request)
+    public function encode(SteganographyEncodeApiRequest $request): Response|JsonResponse
     {
-        // Get the image, as long as it belongs to the logged in user
-        // $image = $request->user()->images()->findOrFail($request->image_id);
+        // Check that the Image belongs to the current user is in ImagePolicy
         $image = Image::findOrFail($request->image_id);
 
         // Download the file from the bucket to a temporary location
@@ -29,7 +29,7 @@ class SteganographyApiController extends Controller
         $contents = Storage::disk('s3')->get($image->path);
         file_put_contents($tempPath, $contents);
 
-        // POST request to external API
+        // Steganography API Call
         $endpoint = $this->endpoint($request->encoding, self::OP_ENCODE);
         $response = Http::attach(
             'image', file_get_contents($tempPath), basename($image->path)
@@ -45,7 +45,7 @@ class SteganographyApiController extends Controller
             return response()->json($response->json(), 502);
         }
 
-        // Return the external API data as JSON
+        // Return the external API data as a PNG
         return response($response->body(), 200)
             ->header('Content-Type', 'image/png')
             ->header('Content-Disposition', 'inline; filename="encoded.png"');
@@ -53,9 +53,7 @@ class SteganographyApiController extends Controller
 
     public function decode(Request $request): JsonResponse
     {
-        // POST request to external API
         $endpoint = $this->endpoint($request->encoding, self::OP_DECODE);
-        echo $endpoint;
 
         $response = Http::attach(
             'image',
@@ -63,7 +61,6 @@ class SteganographyApiController extends Controller
             $request->file('image')->getClientOriginalName()        // original filename
         )->post($endpoint);
 
-        // Return the external API data as JSON
         return response()->json($response->json(), $response->status());
     }
 

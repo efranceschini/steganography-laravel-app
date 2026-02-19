@@ -119,7 +119,10 @@
 
             const response = await fetch('/api/encode', {
               method: 'POST',
-              credentials: 'include',
+              headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json, image/png',
+              },
               body: formData
             })
 
@@ -127,7 +130,6 @@
               const text = await response.text()
               throw new Error(`API error: ${text}`)
             }
-            console.log(response.json)
           } catch (err) {
             console.error(err)
             alert("Failed to decode image")
@@ -143,7 +145,10 @@
           try {
             const response = await fetch('/api/decode', {
               method: 'POST',
-              credentials: 'include',
+              headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+              },
               body: formData
             })
 
