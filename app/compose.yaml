@@ -23,6 +23,7 @@ services:
             - sail
         depends_on:
             - mysql
+            - minio
     mysql:
         image: 'mysql:8.4'
         ports:
@@ -48,6 +49,41 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    minio:
+        image: 'minio/minio:latest'
+        ports:
+            - '${FORWARD_MINIO_PORT:-9000}:9000'
+            - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
+        environment:
+            MINIO_ROOT_USER: sail
+            MINIO_ROOT_PASSWORD: password
+        volumes:
+            - 'sail-minio:/data/minio'
+        networks:
+            - sail
+        command: 'server /data/minio --address ":9000" --console-address ":8900"'
+        healthcheck:
+            test:
+                - CMD
+                - curl
+                - '-f'
+                - 'http://localhost:9000/minio/health/live'
+            retries: 3
+            timeout: 5s
+    minio-init:
+        # Creates a public /local bucket
+        image: 'minio/mc'
+        depends_on:
+            - minio
+        networks:
+            - sail
+        entrypoint: >
+            /bin/sh -c "
+            until (/usr/bin/mc alias set myminio http://minio:9000 sail password) do echo '...waiting for minio...' && sleep 1; done;
+            /usr/bin/mc mb --ignore-existing myminio/local;
+            /usr/bin/mc anonymous set download myminio/local;
+            exit 0;
+            "
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         ports:
@@ -64,4 +100,6 @@ networks:
         driver: bridge
 volumes:
     sail-mysql:
+        driver: local
+    sail-minio:
         driver: local
