@@ -17,8 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('path');
+            $table->unsignedBigInteger('size')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
+
+            $table->unique(['user_id', 'title']);
         });
     }
 

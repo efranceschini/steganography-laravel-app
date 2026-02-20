@@ -24,25 +24,26 @@ class ImageController extends Controller
     public function store(StoreImageRequest $request)
     {
         try {
-            $path = $request->file('image')->storePublicly('uploads', 's3');
-
-            if ($path === false) {
-                return back()
-                    ->withInput()
-                    ->withErrors(['image' => 'The file could not be uploaded to the storage server.']);
-            }
-
-            $request->user()->images()->create([
-                'title' => $request->title,
-                'path' => $path,
-            ]);
-
-            return redirect()->route('dashboard')
-                ->with('success', 'Image uploaded');
-
+            $file = $request->file('image');
+            $size = $file->getSize();
+            $path = $file->storePublicly('uploads', 's3');
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['image' => 'Storage service is unreachable.']);
         }
+
+        if ($path === false) {
+            return back()->withInput()
+                ->withErrors(['image' => 'The file could not be uploaded to the storage server.']);
+        }
+
+        $image = $request->user()->images()->create([
+            'title' => $request->title,
+            'path' => $path,
+            'size' => $size,
+        ]);
+
+        return redirect()->route('dashboard')
+            ->with('success', "Image \"$image->title\" uploaded");
     }
 
     public function destroy(Image $image)
@@ -52,6 +53,6 @@ class ImageController extends Controller
 
         return redirect()
             ->route('dashboard')
-            ->with('success', 'Image deleted');
+            ->with('success', "Image \"$image->title\" deleted");
     }
 }

@@ -1,32 +1,54 @@
 <x-layouts.app>
-  @if ($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 p-3 mb-4">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
 
-  <form method="POST" action="{{ route('login') }}">
-    @csrf
+  <div class="min-h-screen grid place-items-center">
 
-    <div>
-      <input name="email" type="email" placeholder="Email" required>
-      @error('email')
-        <div class="text-red-600">{{ $message }}</div>
-      @enderror
-    </div>
-    <div>
-      <input name="password" type="password" placeholder="Password" required>
-      @error('password')
-        <div class="text-red-600">{{ $message }}</div>
-      @enderror
-    </div>
+    <x-ui.card class="w-full h-screen sm:h-auto sm:max-w-md">
 
-    <button>Login</button>
+      <form method="POST" action="{{ route('login') }}" class="space-y-4">
+        @csrf
 
-    <a href="{{ route('register') }}">Register</a>
-  </form>
+        <x-ui.header-auth :title="config('app.name')" subtitle="Laravel Gateway" />
+
+        <div>
+          <x-form.input
+            name="email"
+            type="email"
+            value="{{ old('email') }}"
+            autocomplete="email"
+            placeholder="Email"
+            required
+          />
+          @error('email')
+            <x-form.input-error>{{ $message }}</x-form.input-error>
+          @enderror
+        </div>
+
+        <div>
+          <x-form.input
+            name="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+          />
+          @error('password')
+            <x-form.input-error>{{ $message }}</x-form.input-error>
+          @enderror
+        </div>
+
+        <x-form.button type="submit" class="w-full font-medium">Login</x-form.button>
+
+        <p class="text-center text-sm text-gray-600">
+          Don’t have an account?
+          <a href="{{ route('register') }}"
+            class="text-blue-600 hover:underline font-medium">
+            Register
+          </a>
+        </p>
+      </form>
+
+    </x-ui.card>
+
+  </div>
+
 </x-layouts.app>

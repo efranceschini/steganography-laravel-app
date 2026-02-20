@@ -12,9 +12,14 @@ class DashboardController extends Controller
     {
         $images = $request->user()
             ->images()
-            ->latest()
-            ->paginate(10);
+            ->orderBy('title', 'asc')
+            ->paginate(5);
 
-        return view('dashboard', compact('images'));
+        $allImages = $request->user()
+            ->images()
+            ->orderBy('title', 'asc')
+            ->get(['id', 'title']);
+
+        return view('dashboard', compact('images', 'allImages'));
     }
 }

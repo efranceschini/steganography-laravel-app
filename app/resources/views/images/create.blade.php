@@ -1,31 +1,33 @@
-<x-layouts.app>
-  @if ($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 p-3 mb-4">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
+<x-layouts.dashboard>
 
-  <form method="POST" action="{{ route('images.store') }}" enctype="multipart/form-data">
-    @csrf
+  <div class="container mx-auto sm:px-4 sm:py-6">
+    <x-ui.card class="max-w-3xl mx-auto">
 
-    <div>
-      <input name="title" type="text" placeholder="Your Image name" required>
-      @error('title')
-        <div class="text-red-600">{{ $error }}</div>
-      @enderror
-    </div>
-    <div>
-      <label>Image</label>
-      <input type="file" name="image" accept=".png" required>
-      @error('image')
-        <div class="text-red-600">{{ $error }}</div>
-      @enderror
-    </div>
+      <x-ui.title-section>Upload Images</x-ui.title-section>
 
-    <button>Upload</button>
-  </form>
-</x-layouts.app>
+      <form method="POST" action="{{ route('images.store') }}" enctype="multipart/form-data"  class="space-y-4">
+        @csrf
+        <div>
+          <x-form.input name="title" type="text" value="{{ old('title') }}" placeholder="Your Image name" required></x-form.input>
+          @error('title')
+            <x-form.input-error>{{ $message }}</x-form.input-error>
+          @enderror
+        </div>
+        <div>
+          <label class="flex items-center px-4 py-2.5 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 relative">
+            <span id="file-name">Upload Image</span>
+            <input type="file" name="image" accept=".png"
+              onchange="document.getElementById('file-name').textContent = this.files[0]?.name || 'Upload Image'"
+              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
+          </label>
+          @error('image')
+            <x-form.input-error>{{ $message }}</x-form.input-error>
+          @enderror
+        </div>
+
+        <x-form.button type="submit">Upload</x-form.button>
+      </form>
+    </x-ui.card>
+  </div>
+
+</x-layouts.dashboard>
