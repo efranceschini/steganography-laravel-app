@@ -96,9 +96,9 @@
             <div>
               <x-form.select v-model="encodeForm.encoding" name="encoding" placeholder="Select Encoding" required>
                 <option value="">Select Encoding</option>
-                <!-- TODO: pass them via config -->
-                <option value="bit">Bit</option>
-                <option value="alpha">Alpha</option>
+                @foreach ($encodings as $encoding)
+                <option value="{{ $encoding }}">{{ Str::title($encoding) }}</option>
+                @endforeach
               </x-form.select>
             </div>
 
@@ -112,7 +112,7 @@
             </div>
 
             <div>
-              <x-form.input v-model="encodeForm.message" name="message" type="text" placeholder="Message" required></x-form.input>
+              <x-form.textarea v-model="encodeForm.message" name="message" placeholder="Message" required></x-form.textarea>
             </div>
 
             <x-form.button type="submit" ::disabled="encodeForm.loading">Encode</x-form.button>
@@ -147,9 +147,9 @@
             <div>
               <x-form.select v-model="decodeForm.encoding" name="encoding" placeholder="Select Encoding" required>
                 <option value="">Select Encoding</option>
-                <!-- TODO: pass them via config -->
-                <option value="bit">Bit</option>
-                <option value="alpha">Alpha</option>
+                @foreach ($encodings as $encoding)
+                <option value="{{ $encoding }}">{{ Str::title($encoding) }}</option>
+                @endforeach
               </x-form.select>
             </div>
 

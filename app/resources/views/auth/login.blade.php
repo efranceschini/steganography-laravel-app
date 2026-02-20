@@ -18,9 +18,7 @@
             placeholder="Email"
             required
           />
-          @error('email')
-            <x-form.input-error>{{ $message }}</x-form.input-error>
-          @enderror
+          <x-form.input-error name="email" />
         </div>
 
         <div>
@@ -31,9 +29,7 @@
             autocomplete="current-password"
             required
           />
-          @error('password')
-            <x-form.input-error>{{ $message }}</x-form.input-error>
-          @enderror
+          <x-form.input-error name="password" />
         </div>
 
         <x-form.button type="submit" class="w-full font-medium">Login</x-form.button>

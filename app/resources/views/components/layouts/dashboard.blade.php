@@ -3,7 +3,7 @@
   <header class="w-full bg-gray-800 shadow px-6 py-4 flex items-center justify-between">
     <!-- Left: Title -->
     <h1 class="text-xl font-semibold text-white">
-    {{ config('app.name') }}
+      <a href="{{ route('dashboard') }}" class="hover:underline">{{ config('app.name') }}</a>
     </h1>
 
     <!-- Right: Logout button -->

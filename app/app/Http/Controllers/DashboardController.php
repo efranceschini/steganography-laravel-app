@@ -19,7 +19,8 @@ class DashboardController extends Controller
             ->images()
             ->orderBy('title', 'asc')
             ->get(['id', 'title']);
+        $encodings = config('api.steganography.encodings');
 
-        return view('dashboard', compact('images', 'allImages'));
+        return view('dashboard', compact('images', 'allImages', 'encodings'));
     }
 }

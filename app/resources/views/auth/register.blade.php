@@ -11,30 +11,22 @@
 
         <div>
           <x-form.input name="name" value="{{ old('name') }}" placeholder="Name" required />
-          @error('name')
-            <x-form.input-error>{{ $message }}</x-form.input-error>
-          @enderror
+          <x-form.input-error name="name" />
         </div>
 
         <div>
           <x-form.input name="email" type="email" value="{{ old('email') }}" placeholder="Email" required />
-          @error('email')
-            <x-form.input-error>{{ $message }}</x-form.input-error>
-          @enderror
+          <x-form.input-error name="email" />
         </div>
 
         <div>
           <x-form.input name="password" type="password" placeholder="Password" required />
-          @error('password')
-            <x-form.input-error>{{ $message }}</x-form.input-error>
-          @enderror
+          <x-form.input-error name="password" />
         </div>
 
         <div>
           <x-form.input name="password_confirmation" type="password" placeholder="Confirm Password" required />
-          @error('password_confirmation')
-            <x-form.input-error>{{ $message }}</x-form.input-error>
-          @enderror
+          <x-form.input-error name="password_confirmation" />
         </div>
 
         <x-form.button type="submit" class="w-full font-medium">Register</x-form.button>
