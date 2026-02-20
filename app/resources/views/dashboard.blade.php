@@ -155,8 +155,8 @@
 
             <div>
               <label class="flex items-center px-4 py-2.5 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 relative">
-                  @{{ decodeForm.image?.name ?? "Upload Image"}}
-                  <input type="file" @change="onDecodeImageChange" name="image" accept=".png" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
+                <div v-cloak>@{{ decodeForm.image?.name ?? "Upload Image"}}</div>
+                <input type="file" @change="onDecodeImageChange" name="image" accept=".png" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
               </label>
             </div>
 
