@@ -33,30 +33,43 @@ Default expected URL: `http://localhost:8080`
 
 ## Running locally
 
+If you are running on Windows, open Ubuntu WSL in [Window Terminal](https://learn.microsoft.com/en-us/windows/terminal/).
+
 Clone the repository:
 
 ```
 git clone https://github.com/Emad88/steganography-laravel-app.git
-cd steganography-laravel-gateway/app
-composer install
-```
-
-Copy environment file:
-
-```
+cd steganography-laravel-app/app
 cp .env.example .env
 ```
 
-Start Sail:
+Install dependencies (via Docker, no local PHP required)
+
+```
+docker run --rm \
+  -u "$(id -u):$(id -g)" \
+  -v $(pwd):/var/www/html \
+  -w /var/www/html \
+  laravelsail/php84-composer:latest \
+  composer install
+```
+
+Start containers
 
 ```
 ./vendor/bin/sail up -d
 ```
 
-Run migrations:
+First-time project setup
 
 ```
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run build
 ./vendor/bin/sail artisan migrate
+./vendor/bin/sail exec laravel.test mkdir -p storage/framework/{cache,sessions,views}
+./vendor/bin/sail exec laravel.test mkdir -p bootstrap/cache
+./vendor/bin/sail artisan storage:link && sail artisan optimize:clear && sail artisan cache:clear
+./vendor/bin/sail exec laravel.test chown -R sail:sail .
 ```
 
 ## Accessing services
