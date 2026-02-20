@@ -66,8 +66,8 @@ First-time project setup
 ./vendor/bin/sail npm install
 ./vendor/bin/sail npm run build
 ./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail exec laravel.test mkdir -p storage/framework/{cache,sessions,views}
-./vendor/bin/sail exec laravel.test mkdir -p bootstrap/cache
 ./vendor/bin/sail artisan storage:link && sail artisan optimize:clear && sail artisan cache:clear
 ./vendor/bin/sail exec laravel.test chown -R sail:sail .
 ```
