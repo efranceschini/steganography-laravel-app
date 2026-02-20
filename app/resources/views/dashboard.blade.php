@@ -174,7 +174,7 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script>
   const { createApp, reactive } = Vue
-  const imageTitles  = {!! $allImages->toJson() !!};
+  const imageTitles  = {!! $allImages->toJson() !!}
 
   createApp(
   {
@@ -186,14 +186,14 @@
           message: "",
           error: null,
           loading: false,
-      });
+      })
 
       const decodeForm = reactive({
           encoding: "",
           image: null,
           message: "",
           error: null,
-      });
+      })
 
       const onDecodeImageChange = (event) => {
         decodeForm.image = event.target.files[0]
@@ -221,24 +221,25 @@
 
           if (!response.ok) {
             const json = await response.json()
-            throw new Error(json?.error || "An error occured while encoding the image")
+            throw new Error(json?.error || "An error occured while encoding the image.")
           }
 
           // Filename
-          const selectedId = encodeForm.imageId;
-          const baseTitle = (imageTitles.find(e => e?.id == selectedId)?.title || 'image') + '_encoded';
-          const safeTitle = baseTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+          const selectedId = encodeForm.imageId
+          const baseTitle = (imageTitles.find(e => e?.id == selectedId)?.title || 'image') + '_encoded'
+          const safeTitle = baseTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()
 
           // Trigger download
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', `${safeTitle}.png`);
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          window.URL.revokeObjectURL(url);
+          const blob = await response.blob()
+          const url = window.URL.createObjectURL(blob)
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', `${safeTitle}.png`)
+
+          document.body.appendChild(link)
+          link.click()
+          link.remove()
+          window.URL.revokeObjectURL(url)
 
         } catch (e) {
           encodeForm.error = e
@@ -269,15 +270,15 @@
           })
 
           if (!response.ok) {
-            const text = await response.text()
-            throw new Error(`API error: ${text}`)
+            const json = await response.json()
+            throw new Error(json?.error || "An error occured while decoding the image.")
           }
 
-          const result = await response.json();
-          decodeForm.message = await result?.data?.message;
+          const result = await response.json()
+          decodeForm.message = await result?.data?.message
 
         } catch (e) {
-          decodeForm.error = "The image doesn't have a message."
+          decodeForm.error = e
           console.error(e)
         } finally {
           decodeForm.loading = false
