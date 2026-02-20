@@ -1,6 +1,6 @@
 # Steganography Laravel Gateway
 
-A Laravel-based gateway for the [Steganography API microservice](https://github.com/Emad88/steganography-slim-api).
+A Laravel-based gateway for the [Steganography API microservice](https://github.com/efranceschini/steganography-slim-api).
 
 The gateway provides:
 
@@ -26,7 +26,7 @@ The actual steganography algorithms run in the external microservice.
 - Docker Compose
 - The Steganography API microservice running locally
 
-Start the microservice first: https://github.com/Emad88/steganography-slim-api
+Start the microservice first: https://github.com/efranceschini/steganography-slim-api
 
 Default expected URL: `http://localhost:8080`
 
@@ -38,12 +38,12 @@ If you are running on Windows, open Ubuntu WSL in [Window Terminal](https://lear
 Clone the repository:
 
 ```
-git clone https://github.com/Emad88/steganography-laravel-app.git
+git clone https://github.com/efranceschini/steganography-laravel-app.git
 cd steganography-laravel-app/app
 cp .env.example .env
 ```
 
-Install dependencies (via Docker, no local PHP required)
+Install dependencies
 
 ```
 docker run --rm \
