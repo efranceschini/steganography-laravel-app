@@ -36,8 +36,9 @@ Default expected URL: `http://localhost:8080`
 Clone the repository:
 
 ```
-git clone https://github.com/Emad88/steganography-laravel-gateway
+git clone https://github.com/Emad88/steganography-laravel-app.git
 cd steganography-laravel-gateway/app
+composer install
 ```
 
 Copy environment file:
