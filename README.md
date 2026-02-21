@@ -17,6 +17,7 @@ The actual steganography algorithms run in the external microservice.
 - **Laravel 12** - web gateway & API proxy
 - **MySQL** - application database
 - **MinIO** - S3-compatible object storage
+- **Vue 3** - dashboard interactivity
 - **Tailwind CSS** - UI styling
 - **Laravel Sail** - local Docker environment
 
