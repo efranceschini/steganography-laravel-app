@@ -38,7 +38,7 @@
                     {{ $image->title }}
                   </td>
                   <td class="px-4 text-center">
-                    {{ $image->human_filesize() }}
+                    {{ $image->humanFilesize() }}
                   </td>
                   <td class="px-4 text-center whitespace-nowrap">
                     @can('delete', $image)

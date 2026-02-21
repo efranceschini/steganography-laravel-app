@@ -15,7 +15,7 @@ class Image extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function human_filesize(int $precision = 2): string
+    public function humanFilesize(int $precision = 2): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
         $power = $this->size > 0 ? floor(log($this->size, 1024)) : 0;
