@@ -103,6 +103,15 @@ POST /{encoding}/encode
 POST /{encoding}/decode
 ```
 
+## Running Unit Tests
+
+The project uses **PHPUnit** to unit tests the functionality of the pages. To run the tests use:
+
+```
+./vendor/bin/sail artisan test --testdox
+```
+
+
 ## Linting & formatting
 
 This project uses **Laravel Pint** for PHP code style.
