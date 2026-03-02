@@ -60,7 +60,9 @@ class RegistrationTest extends TestCase
         ]);
 
         $response->assertRedirect(self::PATH_REGISTER);
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors([
+            'email' => 'The email has already been taken.',
+        ]);
 
         $this->assertGuest();
     }
@@ -76,7 +78,9 @@ class RegistrationTest extends TestCase
         ]);
 
         $response->assertRedirect(self::PATH_REGISTER);
-        $response->assertSessionHasErrors('password');
+        $response->assertSessionHasErrors([
+            'password' => 'The password field confirmation does not match.',
+        ]);
 
         $this->assertGuest();
     }
